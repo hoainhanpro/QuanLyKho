@@ -15,7 +15,7 @@ namespace QuanLyKho
         private class ComboBoxItem
         {
             public int CategoryID { get; set; }
-            public string CategoryName { get; set; }
+            public required string CategoryName { get; set; }
 
             public override string ToString()
             {
@@ -55,6 +55,7 @@ namespace QuanLyKho
                 }
             }
         }
+        
         private int GetSelectedCategoryID()
         {
             var selectedItem = cmbDanhMuc.SelectedItem;
@@ -66,20 +67,70 @@ namespace QuanLyKho
             return -1;
         }
 
+        private byte[] GetRowVersion(int categoryId, string productName, string color, string size)
+        {
+            string connectionString = "Server=26.26.244.217,1434;Database=Assigment;User ID=sa;Password=sa;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    // Truy vấn RowVersion
+                    using (SqlCommand cmd = new SqlCommand("sp_GetRowVersion", connection))
+                    {
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("CATEGORYID", categoryId);
+                        cmd.Parameters.AddWithValue("PRODUCTNAME", productName);
+                        cmd.Parameters.AddWithValue("COLOR", color);
+                        cmd.Parameters.AddWithValue("SIZE", size);
+                        object result = cmd.ExecuteScalar();
+                        if (result != null && result is byte[])
+                        {
+                            return (byte[])result;  
+                        }
+                        return null; 
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Lỗi khi lấy RowVersion: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return null;
+                }
+            }
+        }
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             string tenSanPham = txtTenSanPham.Text;
-            string danhMuc = ((ComboBoxItem)cmbDanhMuc.SelectedItem)?.CategoryName;
-            int soLuong = (int)numSoLuong.Value;
-            string mauSac = txtMauSac.Text;
-            string kichThuoc = txtKichThuoc.Text;
-
             if (string.IsNullOrWhiteSpace(tenSanPham))
             {
                 MessageBox.Show("Vui lòng nhập tên sản phẩm.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
+            string danhMuc = ((ComboBoxItem)cmbDanhMuc.SelectedItem)?.CategoryName;
+
+            int soLuong = (int)numSoLuong.Value;
+            if (soLuong <= 0)
+            {
+                MessageBox.Show("Số lượng phải lớn hơn 0.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string mauSac = txtMauSac.Text;
+            if (string.IsNullOrWhiteSpace(mauSac))
+            {
+                MessageBox.Show("Vui lòng nhập tên sản phẩm.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string kichThuoc = txtKichThuoc.Text;
+            if (string.IsNullOrWhiteSpace(kichThuoc))
+            {
+                MessageBox.Show("Vui lòng nhập tên sản phẩm.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
             if (string.IsNullOrWhiteSpace(danhMuc))
             {
                 MessageBox.Show("Vui lòng chọn danh mục.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -97,6 +148,13 @@ namespace QuanLyKho
             if (categoryId == 0)
             {
                 MessageBox.Show("Danh mục không hợp lệ.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            byte[] rowVersion = GetRowVersion(categoryId, tenSanPham, mauSac, kichThuoc);
+            if (rowVersion != null)
+            {
+                MessageBox.Show("Sản phẩm này đã tồn tại trong kho.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -130,6 +188,7 @@ namespace QuanLyKho
                         cmd.Parameters.AddWithValue("@QUANTITY", soLuong);
                         cmd.Parameters.AddWithValue("@COLOR", mauSac);
                         cmd.Parameters.AddWithValue("@SIZE", kichThuoc);
+                        
                         try
                         {
                             int result = cmd.ExecuteNonQuery();

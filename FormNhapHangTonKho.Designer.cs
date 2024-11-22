@@ -18,7 +18,7 @@
 
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
-
+        
         private void InitializeComponent()
         {
             this.lblDanhMuc = new System.Windows.Forms.Label();
@@ -117,7 +117,9 @@
             this.btnCancel.Size = new System.Drawing.Size(100, 40);
             this.btnCancel.Text = "Hủy";
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-
+            
+            
+            
             // Thêm controls vào form
             this.Controls.Add(this.lblDanhMuc);
             this.Controls.Add(this.cmbDanhMuc);
@@ -133,9 +135,9 @@
             this.Controls.Add(this.txtKichThuoc);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnCancel);
-
+            
             ((System.ComponentModel.ISupportInitialize)(this.numSoLuong)).EndInit();
-            this.ResumeLayout(false);
+            this.ResumeLayout(true);
             this.PerformLayout();
         }
     }
