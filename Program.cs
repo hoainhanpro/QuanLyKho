@@ -10,7 +10,7 @@ namespace QuanLyKho
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-           Application.Run(new FormNhapHangTonKho());
+            Application.Run(new FormNhapHangTonKho());
             //Application.Run(new FormChinhSuaHangTonKho());
         }
     }

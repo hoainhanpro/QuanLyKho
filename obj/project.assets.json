@@ -470,19 +470,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ACER\\.nuget\\packages\\": {}
+    "C:\\Users\\hoain\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\ACER\\Code\\Hệ thống phân tán\\QuanLyKho\\QuanLyKho.csproj",
+      "projectUniqueName": "D:\\HoaiNhan\\Code\\QuanLyKho\\QuanLyKho.csproj",
       "projectName": "QuanLyKho",
-      "projectPath": "c:\\Users\\ACER\\Code\\Hệ thống phân tán\\QuanLyKho\\QuanLyKho.csproj",
-      "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\ACER\\Code\\Hệ thống phân tán\\QuanLyKho\\obj\\",
+      "projectPath": "D:\\HoaiNhan\\Code\\QuanLyKho\\QuanLyKho.csproj",
+      "packagesPath": "C:\\Users\\hoain\\.nuget\\packages\\",
+      "outputPath": "D:\\HoaiNhan\\Code\\QuanLyKho\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\hoain\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
