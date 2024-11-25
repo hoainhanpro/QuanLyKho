@@ -5,7 +5,7 @@ Viết chương trình nhập xuất tồn kho trên các client và ứng dụn
 
 <br>
 
-Để build và chạy project:
-Restore packages: dotnet restore
-Build: dotnet build
-Run: dotnet run
+Để build và chạy project:<br>
+Restore packages: dotnet restore<br>
+Build: dotnet build<br>
+Run: dotnet run<br>
