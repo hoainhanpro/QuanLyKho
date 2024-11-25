@@ -70,7 +70,8 @@ namespace QuanLyKho
                         SET QUANTITY = QUANTITY + @QuantityChange,
                             CURRENTPRICE = @NewPrice
                         WHERE ID = @ProductId 
-                        AND RowVersionColumn = @RowVersion", _connection, transaction);
+                        AND RowVersionColumn = @RowVersion
+                        AND (QUANTITY + @QuantityChange) >= 0", _connection, transaction);
 
                     updateCmd.Parameters.AddWithValue("@QuantityChange", isImport ? quantity : -quantity);
                     updateCmd.Parameters.AddWithValue("@NewPrice", price);
