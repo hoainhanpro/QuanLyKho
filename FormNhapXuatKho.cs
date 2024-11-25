@@ -57,7 +57,7 @@ namespace QuanLyKho
                 int quantity = int.Parse(txtQuantity.Text);
                 decimal price = decimal.Parse(txtPrice.Text);
 
-                MessageBox.Show($"Debug: ProductID={productId}, Quantity={quantity}, Price={price}");
+                MessageBox.Show($"Xác nhận: Mã sản phẩm: {productId}, Số lượng: {quantity}, Giá: {price}");
 
                 // Lấy phiên bản hiện tại của sản phẩm
                 byte[] currentVersion = await GetRowVersion(productId);
