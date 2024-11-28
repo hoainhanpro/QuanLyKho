@@ -13,6 +13,7 @@ namespace QuanLyKho
             this.lblQuantity = new System.Windows.Forms.Label();
             this.lblPrice = new System.Windows.Forms.Label();
             this.groupBoxInfo = new System.Windows.Forms.GroupBox();
+            this.lblAvailableQuantity = new System.Windows.Forms.Label();
 
             // Form
             this.Text = "Quản lý Nhập Xuất Kho";
@@ -36,6 +37,10 @@ namespace QuanLyKho
             lblPrice.Text = "Đơn giá:";
             lblPrice.Location = new System.Drawing.Point(20, 140);
             lblPrice.AutoSize = true;
+
+            lblAvailableQuantity.Location = new System.Drawing.Point(280, 85);
+            lblAvailableQuantity.Size = new System.Drawing.Size(150, 25);
+            lblAvailableQuantity.Text = "Số lượng tồn: ";
 
             // ComboBox Products
             cboProducts.Location = new System.Drawing.Point(120, 35);
@@ -62,7 +67,7 @@ namespace QuanLyKho
             groupBoxInfo.Controls.AddRange(new Control[] {
                 lblProduct, lblQuantity, lblPrice,
                 cboProducts, txtQuantity, txtPrice,
-                btnImport, btnExport
+                btnImport, btnExport, lblAvailableQuantity
             });
 
             // Add groupBox to form
@@ -78,5 +83,6 @@ namespace QuanLyKho
         private System.Windows.Forms.Label lblQuantity;
         private System.Windows.Forms.Label lblPrice;
         private System.Windows.Forms.GroupBox groupBoxInfo;
+        private System.Windows.Forms.Label lblAvailableQuantity;
     }
 }

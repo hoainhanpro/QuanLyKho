@@ -14,11 +14,12 @@ namespace QuanLyKho
         public FormNhapXuatKho()
         {
             InitializeComponent();
-            _connection = new SqlConnection("Server=26.26.244.217,1434;Database=Assigment;User ID=sa;Password=sa;");
+            _connection = new SqlConnection("Server=26.26.244.217,1434;Database=Assigment;User ID=sa;Password=sa; MultipleActiveResultSets=true");
             
             // Đăng ký event handler
             btnImport.Click += btnImport_Click;
             btnExport.Click += btnExport_Click;
+            cboProducts.SelectedIndexChanged += cboProducts_SelectedIndexChanged; // Thêm dòng này
             
             LoadProducts();
         }
@@ -34,9 +35,13 @@ namespace QuanLyKho
                 var table = new DataTable();
                 adapter.Fill(table);
                 
-                cboProducts.DataSource = table;
+                // Set DisplayMember and ValueMember before DataSource
                 cboProducts.DisplayMember = "PRODUCTNAME";
                 cboProducts.ValueMember = "ID";
+                cboProducts.DataSource = table;
+
+                // Update initial available quantity
+                _ = UpdateAvailableQuantity();
             }
             catch (Exception ex)
             {
@@ -53,7 +58,14 @@ namespace QuanLyKho
                 if (_connection.State != ConnectionState.Open)
                     await _connection.OpenAsync();
 
-                int productId = (int)cboProducts.SelectedValue;
+                var selectedRow = cboProducts.SelectedItem as DataRowView;
+                if (selectedRow == null)
+                {
+                    MessageBox.Show("Vui lòng chọn sản phẩm hợp lệ.");
+                    return;
+                }
+
+                int productId = Convert.ToInt32(selectedRow["ID"]);
                 int quantity = int.Parse(txtQuantity.Text);
                 decimal price = decimal.Parse(txtPrice.Text);
 
@@ -150,6 +162,14 @@ namespace QuanLyKho
                 return false;
             }
 
+            // Thêm kiểm tra số lượng tồn kho khi xuất
+            var currentQuantity = int.Parse(lblAvailableQuantity.Text.Replace("Số lượng còn lại: ", ""));
+            if (btnExport.Focused && quantity > currentQuantity)
+            {
+                MessageBox.Show($"Số lượng xuất ({quantity}) không thể lớn hơn số lượng tồn kho ({currentQuantity})");
+                return false;
+            }
+
             return true;
         }
 
@@ -162,5 +182,40 @@ namespace QuanLyKho
         {
             await ProcessInventory(false);
         }
+
+        private async void cboProducts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            await UpdateAvailableQuantity();
+        }
+
+        private async Task UpdateAvailableQuantity()
+        {
+            if (cboProducts.SelectedValue != null)
+            {
+                int productId = Convert.ToInt32(cboProducts.SelectedValue);
+                int quantity = await GetProductQuantity(productId);
+                lblAvailableQuantity.Text = $"Số lượng còn lại: {quantity}";
+            }
+        }
+
+        private async Task<int> GetProductQuantity(int productId)
+        {
+            try
+            {
+                if (_connection.State != ConnectionState.Open)
+                    await _connection.OpenAsync();
+
+                using var cmd = new SqlCommand("SELECT QUANTITY FROM CLOTHES WHERE ID = @ProductId", _connection);
+                cmd.Parameters.AddWithValue("@ProductId", productId);
+
+                var result = await cmd.ExecuteScalarAsync();
+                return result != null ? Convert.ToInt32(result) : 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi lấy số lượng sản phẩm: {ex.Message}");
+                return 0;
+            }
+        }
     }
-} 
+}
