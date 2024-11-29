@@ -6,7 +6,7 @@ namespace QuanLyKho
 {
     public partial class FormNhapHangTonKho : Form
     {
-        private string connectionString = "Server=26.26.244.217,1434;Database=Assigment;User Id=sa;Password=sa;";
+        private string connectionString = "Server=26.26.244.217,1344;Database=Assigment;User Id=sa;Password=sa;";
         public FormNhapHangTonKho()
         {
             InitializeComponent();
@@ -25,7 +25,6 @@ namespace QuanLyKho
         }
         private void LoadCategories()
         {
-            string connectionString = "Server=26.26.244.217,1434;Database=Assigment;User ID=sa;Password=sa;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -70,7 +69,6 @@ namespace QuanLyKho
 
         private byte[] GetRowVersion(int categoryId, string productName, string color, string size)
         {
-            string connectionString = "Server=26.26.244.217,1434;Database=Assigment;User ID=sa;Password=sa;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -161,7 +159,6 @@ namespace QuanLyKho
 
             try
             {
-                string connectionString = "Server=26.26.244.217,1434;Database=Assigment;User ID=sa;Password=sa;";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
