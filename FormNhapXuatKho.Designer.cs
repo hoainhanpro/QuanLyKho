@@ -38,7 +38,7 @@ namespace QuanLyKho
             lblPrice.Location = new System.Drawing.Point(20, 140);
             lblPrice.AutoSize = true;
 
-            lblAvailableQuantity.Location = new System.Drawing.Point(280, 85);
+            lblAvailableQuantity.Location = new System.Drawing.Point(280, 90);
             lblAvailableQuantity.Size = new System.Drawing.Size(150, 25);
             lblAvailableQuantity.Text = "Số lượng tồn: ";
 
