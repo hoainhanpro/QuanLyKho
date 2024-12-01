@@ -15,7 +15,7 @@ namespace QuanLyKho
         {
             InitializeComponent();
             _connection = new SqlConnection("Server=26.26.244.217,1434;Database=Assigment;User ID=sa;Password=sa;");
-            
+
             // Đăng ký sự kiện nút Sign in
             btnSignin.Click += btnSignin_Click;
         }
@@ -32,8 +32,7 @@ namespace QuanLyKho
             }
 
             try
-            {   
-
+            {
                 string hashedPassword = HashPassword(password);
                 // Kiểm tra thông tin đăng nhập
                 string role = await AuthenticateUser(username, hashedPassword);
@@ -41,19 +40,12 @@ namespace QuanLyKho
                 {
                     MessageBox.Show("Sai thông tin đăng nhập. Vui lòng thử lại.", "Đăng nhập thất bại", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                else if (role == "Quản lý")
-                {
-                    MessageBox.Show("Đăng nhập thành công! Chuyển đến giao diện Quản lý.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Hide();
-                    new FormNhapXuatKho().ShowDialog();
-                    this.Show();
-                    this.Close();
-                }
                 else
                 {
-                    MessageBox.Show("Đăng nhập thành công! Chuyển đến giao diện Nhập hàng tồn kho.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // Chuyển tới FormDieuKhien và truyền role
+                    FormDieuKhien formDieuKhien = new FormDieuKhien(role);
                     this.Hide();
-                    new FormNhapHangTonKho().ShowDialog();
+                    formDieuKhien.ShowDialog();
                     this.Show();
                     this.Close();
                 }
@@ -63,6 +55,7 @@ namespace QuanLyKho
                 MessageBox.Show($"Lỗi khi đăng nhập: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private async Task<string> AuthenticateUser(string username, string password)
         {
