@@ -9,7 +9,6 @@ namespace QuanLyKho
     {
         private readonly SqlConnection _connection;
         private readonly BindingSource _bindingSource = new BindingSource();
-        private System.Windows.Forms.Timer _refreshTimer;
 
         public FormTongQuanTonKho()
         {
@@ -18,11 +17,11 @@ namespace QuanLyKho
             
             dataGridView.DataSource = _bindingSource;
             
-            _refreshTimer = new System.Windows.Forms.Timer();
-            _refreshTimer.Interval = 1000; // Làm mới mỗi 10 giây
-            _refreshTimer.Tick += RefreshTimer_Tick;
-            _refreshTimer.Start();
+            LoadInventoryData();
+        }
 
+        public void RefreshData()
+        {
             LoadInventoryData();
         }
 
@@ -62,9 +61,13 @@ namespace QuanLyKho
             if (dataGridView.Columns.Count > 0)
             {
                 dataGridView.Columns["ID"].HeaderText = "Mã SP";
+                dataGridView.Columns["CATEGORYID"].HeaderText = "Mã Loại";
                 dataGridView.Columns["PRODUCTNAME"].HeaderText = "Tên Sản Phẩm";
                 dataGridView.Columns["QUANTITY"].HeaderText = "Số Lượng";
+                dataGridView.Columns["COLOR"].HeaderText = "Màu Sắc";
+                dataGridView.Columns["SIZE"].HeaderText = "Kích Thước";
                 dataGridView.Columns["CURRENTPRICE"].HeaderText = "Giá Hiện Tại";
+                dataGridView.Columns["IDLIST"].HeaderText = "ID List";
                 
                 // Ẩn cột version nếu có
                 if (dataGridView.Columns.Contains("RowVersionColumn"))
@@ -72,17 +75,33 @@ namespace QuanLyKho
                 
                 // Định dạng cột giá
                 dataGridView.Columns["CURRENTPRICE"].DefaultCellStyle.Format = "N0";
+
+                //Add CellFormatting event
+                dataGridView.CellFormatting += DataGridView_CellFormatting;
             }
         }
 
-        private void RefreshTimer_Tick(object sender, EventArgs e)
+        private void DataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            LoadInventoryData();
+            // Check if this is the CATEGORYID column
+            if (dataGridView.Columns[e.ColumnIndex].Name == "CATEGORYID" && e.Value != null)
+            {
+                // Convert category ID to text
+                switch (e.Value.ToString())
+                {
+                    case "1":
+                        e.Value = "Quần";
+                        break;
+                    case "2":
+                        e.Value = "Áo";
+                        break;
+                }
+                e.FormattingApplied = true;
+            }
         }
-
+        
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            _refreshTimer.Stop();
             _connection.Dispose();
             base.OnFormClosing(e);
         }
