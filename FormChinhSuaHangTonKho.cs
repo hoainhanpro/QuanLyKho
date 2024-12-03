@@ -7,7 +7,7 @@ namespace QuanLyKho
 {
     public partial class FormChinhSuaHangTonKho : Form
     {
-        private string connectionString = "Server=26.26.244.217,1344;Database=Assigment;User Id=sa;Password=sa;"; 
+        private string connectionString = "Server=26.26.244.217,1344;Database=Assigment;User Id=HTKN;Password=123456;"; 
 
         public FormChinhSuaHangTonKho()
         {

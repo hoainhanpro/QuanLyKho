@@ -14,7 +14,7 @@ namespace QuanLyKho
         public FormNhapXuatKho()
         {
             InitializeComponent();
-            _connection = new SqlConnection("Server=26.26.244.217,1344;Database=Assigment;User ID=sa;Password=sa; MultipleActiveResultSets=true");
+            _connection = new SqlConnection("Server=26.26.244.217,1344;Database=Assigment;User ID=HTKN;Password=123456; MultipleActiveResultSets=true");
             
             // Đăng ký event handler
             btnImport.Click += btnImport_Click;

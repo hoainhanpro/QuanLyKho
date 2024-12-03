@@ -13,7 +13,7 @@ namespace QuanLyKho
         public FormTongQuanTonKho()
         {
             InitializeComponent();
-            _connection = new SqlConnection("Server=26.26.244.217,1344;Database=Assigment;User ID=sa;Password=sa");
+            _connection = new SqlConnection("Server=26.26.244.217,1344;Database=Assigment;User ID=HTKN;Password=123456");
             
             dataGridView.DataSource = _bindingSource;
             

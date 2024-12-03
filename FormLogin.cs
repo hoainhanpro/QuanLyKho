@@ -14,7 +14,7 @@ namespace QuanLyKho
         public FormLogin()
         {
             InitializeComponent();
-            _connection = new SqlConnection("Server=26.26.244.217,1434;Database=Assigment;User ID=sa;Password=sa;");
+            _connection = new SqlConnection("Server=26.26.244.217,1434;Database=Assigment;User ID=HTKN;Password=123456;");
 
             // Đăng ký sự kiện nút Sign in
             btnSignin.Click += btnSignin_Click;
